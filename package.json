@@ -9,7 +9,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "build-keycloak-theme": "npm run build && keycloakify build"
+    "build-keycloak-theme": "npm run build && keycloakify build",
+    "start-keycloak": "NO_DEV_SERVER=true keycloakify start-keycloak"
   },
   "dependencies": {
     "react": "^18.0.0",
