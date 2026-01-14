@@ -995,7 +995,7 @@
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/admin/myrealm/console/*"
+        "/admin/myrealm/console/"
       ],
       "webOrigins": [
         "*"

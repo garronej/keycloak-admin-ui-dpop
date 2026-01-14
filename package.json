@@ -31,7 +31,7 @@
     "i18next": "^25.7.3",
     "i18next-fetch-backend": "^6.0.0",
     "jszip": "^3.10.1",
-    "keycloak-js": "^26.2.2",
+    "oidc-spa": "10.0.1-rc.6",
     "lodash-es": "^4.17.22",
     "p-debounce": "^5.1.0",
     "react-hook-form": "^7.70.0",
