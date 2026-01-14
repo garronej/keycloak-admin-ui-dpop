@@ -13,6 +13,7 @@ export default defineConfig([globalIgnores(['dist']), {
   }
 }], {
   linterOptions: {
-    reportUnusedDisableDirectives: "off"
+    reportUnusedDisableDirectives: "off",
+    "@typescript-eslint/no-explicit-any": "off"
   }
 });
