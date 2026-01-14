@@ -995,8 +995,6 @@
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "http://localhost*",
-        "http://127.0.0.1*",
         "/admin/myrealm/console/*"
       ],
       "webOrigins": [
@@ -1021,7 +1019,10 @@
         "oauth2.device.authorization.grant.enabled": "false",
         "display.on.consent.screen": "false",
         "pkce.code.challenge.method": "S256",
-        "backchannel.logout.revoke.offline.tokens": "false"
+        "backchannel.logout.revoke.offline.tokens": "false",
+        "dpop.bound.access.tokens": "false",
+        "logout.confirmation.enabled": "false",
+        "standard.token.exchange.enabled": "false"
       },
       "authenticationFlowBindingOverrides": {},
       "fullScopeAllowed": true,
@@ -1488,14 +1489,71 @@
       ]
     },
     {
+      "id": "ed24796e-e723-445d-be23-c6b8066c4027",
+      "name": "service_account",
+      "description": "Specific scope for a client enabled for service accounts",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "false",
+        "display.on.consent.screen": "false"
+      },
+      "protocolMappers": [
+        {
+          "id": "c52587ba-d460-4e02-bc1a-0960015a8de0",
+          "name": "Client Host",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "introspection.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientHost",
+            "jsonType.label": "String",
+            "user.session.note": "clientHost"
+          }
+        },
+        {
+          "id": "a672293c-781d-4799-9186-87142fe6c9a0",
+          "name": "Client IP Address",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "introspection.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientAddress",
+            "jsonType.label": "String",
+            "user.session.note": "clientAddress"
+          }
+        },
+        {
+          "id": "1d4cff46-6909-4e31-aab4-7d24db21338c",
+          "name": "Client ID",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "introspection.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "client_id",
+            "jsonType.label": "String",
+            "user.session.note": "client_id"
+          }
+        }
+      ]
+    },
+    {
       "id": "49e85de9-edd1-4a9e-a2b0-e9c663d4dd9a",
       "name": "email",
       "description": "OpenID Connect built-in scope: email",
       "protocol": "openid-connect",
       "attributes": {
         "include.in.token.scope": "true",
-        "consent.screen.text": "${emailScopeConsentText}",
-        "display.on.consent.screen": "true"
+        "display.on.consent.screen": "true",
+        "consent.screen.text": "${emailScopeConsentText}"
       },
       "protocolMappers": [
         {
@@ -1549,13 +1607,13 @@
           "protocolMapper": "oidc-usermodel-attribute-mapper",
           "consentRequired": false,
           "config": {
-            "introspection.token.claim": "true",
-            "userinfo.token.claim": "true",
             "user.attribute": "username",
-            "id.token.claim": "true",
+            "introspection.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "upn",
-            "jsonType.label": "String"
+            "jsonType.label": "String",
+            "id.token.claim": "true",
+            "userinfo.token.claim": "true"
           }
         },
         {
@@ -1566,13 +1624,13 @@
           "consentRequired": false,
           "config": {
             "introspection.token.claim": "true",
-            "multivalued": "true",
-            "userinfo.token.claim": "true",
-            "user.attribute": "foo",
-            "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "groups",
-            "jsonType.label": "String"
+            "id.token.claim": "true",
+            "jsonType.label": "String",
+            "multivalued": "true",
+            "user.attribute": "foo",
+            "userinfo.token.claim": "true"
           }
         }
       ]
@@ -1584,8 +1642,8 @@
       "protocol": "openid-connect",
       "attributes": {
         "include.in.token.scope": "false",
-        "consent.screen.text": "${rolesScopeConsentText}",
-        "display.on.consent.screen": "true"
+        "display.on.consent.screen": "true",
+        "consent.screen.text": "${rolesScopeConsentText}"
       },
       "protocolMappers": [
         {
@@ -1595,12 +1653,12 @@
           "protocolMapper": "oidc-usermodel-realm-role-mapper",
           "consentRequired": false,
           "config": {
-            "user.attribute": "foo",
             "introspection.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "realm_access.roles",
             "jsonType.label": "String",
-            "multivalued": "true"
+            "multivalued": "true",
+            "user.attribute": "foo"
           }
         },
         {
@@ -1621,12 +1679,12 @@
           "protocolMapper": "oidc-usermodel-client-role-mapper",
           "consentRequired": false,
           "config": {
-            "user.attribute": "foo",
             "introspection.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "resource_access.${client_id}.roles",
             "jsonType.label": "String",
-            "multivalued": "true"
+            "multivalued": "true",
+            "user.attribute": "foo"
           }
         }
       ]
@@ -1648,9 +1706,9 @@
           "protocolMapper": "oidc-acr-mapper",
           "consentRequired": false,
           "config": {
-            "id.token.claim": "true",
             "introspection.token.claim": "true",
             "access.token.claim": "true",
+            "id.token.claim": "true",
             "userinfo.token.claim": "true"
           }
         }
@@ -1719,14 +1777,14 @@
         "subComponents": {},
         "config": {
           "allowed-protocol-mapper-types": [
-            "oidc-address-mapper",
             "saml-user-attribute-mapper",
+            "oidc-sha256-pairwise-sub-mapper",
+            "oidc-address-mapper",
             "oidc-usermodel-property-mapper",
+            "oidc-full-name-mapper",
             "oidc-usermodel-attribute-mapper",
             "saml-user-property-mapper",
-            "oidc-sha256-pairwise-sub-mapper",
-            "saml-role-list-mapper",
-            "oidc-full-name-mapper"
+            "saml-role-list-mapper"
           ]
         }
       },
@@ -1760,10 +1818,10 @@
           "allowed-protocol-mapper-types": [
             "oidc-usermodel-attribute-mapper",
             "oidc-sha256-pairwise-sub-mapper",
-            "saml-role-list-mapper",
             "oidc-address-mapper",
             "oidc-full-name-mapper",
             "saml-user-property-mapper",
+            "saml-role-list-mapper",
             "oidc-usermodel-property-mapper",
             "saml-user-attribute-mapper"
           ]
@@ -2530,6 +2588,15 @@
       "config": {}
     },
     {
+      "alias": "idp_link",
+      "name": "Linking Identity Provider",
+      "providerId": "idp_link",
+      "enabled": true,
+      "defaultAction": false,
+      "priority": 120,
+      "config": {}
+    },
+    {
       "alias": "update_user_locale",
       "name": "Update User Locale",
       "providerId": "update_user_locale",
@@ -2558,10 +2625,9 @@
     "cibaExpiresIn": "120",
     "oauth2DeviceCodeLifespan": "600",
     "parRequestUriLifespan": "60",
-    "clientSessionMaxLifespan": "0",
-    "organizationsEnabled": "false"
+    "clientSessionMaxLifespan": "0"
   },
-  "keycloakVersion": "26.0.7",
+  "keycloakVersion": "26.5.0",
   "userManagedAccessAllowed": false,
   "organizationsEnabled": false,
   "clientProfiles": {
@@ -2569,5 +2635,7 @@
   },
   "clientPolicies": {
     "policies": []
-  }
+  },
+  "adminPermissionsEnabled": false,
+  "verifiableCredentialsEnabled": false
 }
