@@ -995,6 +995,8 @@
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
+        "http://localhost*",
+        "http://127.0.0.1*",
         "/admin/myrealm/console/"
       ],
       "webOrigins": [
@@ -1743,7 +1745,7 @@
   "smtpServer": {},
   "loginTheme": "",
   "accountTheme": "",
-  "adminTheme": "keycloak-admin-ui-dpop",
+  "adminTheme": "keycloak-dpop",
   "emailTheme": "",
   "eventsEnabled": false,
   "eventsListeners": [
